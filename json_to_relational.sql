@@ -17,6 +17,9 @@ DECLARE @sql nvarchar(max), @msg nvarchar(max), @wrap_object bit=0, @convert_to_
 WHILE (LEFT(@blob, 1) IN (N' ', NCHAR(9), NCHAR(10), CHAR(13))) SET @blob=SUBSTRING(@blob, 2, LEN(@blob));
 WHILE (RIGHT(@blob, 1) IN (N' ', NCHAR(9), NCHAR(10), CHAR(13))) SET @blob=LEFt(@blob, LEN(@blob)-1);
 
+IF (SCHEMA_ID(@schema_name)) IS NULL
+    THROW 50001, N'The schema name does not exist in this database.', 1;
+
 --- If you've specified a @base_table_name, you can pass an array to the JSON blob, rather than a regular JSON object.
 IF (@base_table_name IS NOT NULL
       --AND EXISTS (SELECT NULL FROM OPENJSON(@blob) WHERE [type] NOT IN (4, 5))
