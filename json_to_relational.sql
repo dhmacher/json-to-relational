@@ -14,8 +14,8 @@ SET NOCOUNT, XACT_ABORT, ARITHABORT ON;
 DECLARE @sql nvarchar(max), @msg nvarchar(max), @wrap_object bit=0, @convert_to_array bit=0, @print_sql nvarchar(max);
 
 --- Trim
-WHILE (LEFT(@blob, 1) IN (N' ', NCHAR(9), NCHAR(10), CHAR(13))) SET @blob=SUBSTRING(@blob, 2, LEN(@blob));
-WHILE (RIGHT(@blob, 1) IN (N' ', NCHAR(9), NCHAR(10), CHAR(13))) SET @blob=LEFt(@blob, LEN(@blob)-1);
+WHILE (@blob!=N'' AND LEFT(@blob, 1) IN (N' ', NCHAR(9), NCHAR(10), CHAR(13))) SET @blob=SUBSTRING(@blob, 2, LEN(@blob));
+WHILE (@blob!=N'' AND RIGHT(@blob, 1) IN (N' ', NCHAR(9), NCHAR(10), CHAR(13))) SET @blob=LEFt(@blob, LEN(@blob)-1);
 
 IF (SCHEMA_ID(@schema_name)) IS NULL
     THROW 50001, N'The schema name does not exist in this database.', 1;
